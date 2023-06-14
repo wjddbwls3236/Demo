@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+       
+<tiles-definitions>
+            <!-- 공통 레이아웃의 뷰이름 -->        <!-- 전체 레이아웃 정하는 JSP -->
+    <definition name="baseLayout" template="/WEB-INF/views/common/layout.jsp">
+        <put-attribute name="title" value=""/>
+        <put-attribute name="header" value="/WEB-INF/views/common/header.jsp"/>        <!-- 레이아웃에서 상단 구성하는 JSP 위치 -->
+        <put-attribute name="side" value="/WEB-INF/views/common/side.jsp"/>            <!-- 레이아웃에서 사이드 메뉴를 구성하는 JSP 위치 -->
+        <put-attribute name="body" value=""/>
+        <put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp"/>        <!-- 레이아웃에서 푸터를 구성하는 JSP 위치 -->
+    </definition>
+    
+    <!-- 관리자 -->
+    <definition name="adminbaseLayout" template="/WEB-INF/views/common/adminlayout.jsp">
+        <put-attribute name="title" value=""/>
+        <put-attribute name="header" value="/WEB-INF/views/common/header.jsp"/>        <!-- 레이아웃에서 상단 구성하는 JSP 위치 -->
+        <put-attribute name="adminSide" value="/WEB-INF/views/common/adminSide.jsp"/>            <!-- 레이아웃에서 사이드 메뉴를 구성하는 JSP 위치 -->
+        <put-attribute name="body" value=""/>
+        <put-attribute name="footer" value="/WEB-INF/views/common/footer.jsp"/>        <!-- 레이아웃에서 푸터를 구성하는 JSP 위치 -->
+    </definition>
+    
+            <!-- 메인 화면의 뷰이름 -->    <!-- 기본 레이아웃은 baseLayout을 상속받음 -->
+    <definition name="main" extends="baseLayout">
+        <put-attribute name="title" value="메인페이지"/>
+        <put-attribute name="body" value="/WEB-INF/views/main.jsp"/>    <!-- 레이아웃에서 본문 표시할 JSP 위치 -->
+   </definition>   
+   
+   <definition name="admin" extends="adminbaseLayout">
+        <put-attribute name="title" value="관리자페이지"/>
+        <put-attribute name="body" value="/WEB-INF/views/admin.jsp"/>    <!-- 레이아웃에서 본문 표시할 JSP 위치 -->
+   </definition>   
+   
+   
+   
+   </tiles-definitions>

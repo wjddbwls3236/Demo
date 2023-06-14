@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+ 
+ <mapper
+	namespace="com.example.demo.mapper.UserMapper">
+
+
+	<select id="getTotalCount" resultType="int">
+        SELECT COUNT(*) FROM sample_board_tb
+    </select>
+    
+    <!-- 검색 및 페이징 리스트 -->
+    <select id="getBoardList"  resultType="BoardDTO">
+        SELECT 
+	        BOARD_IDX,
+	        BOARD_WRITER,
+	        BOARD_TITLE,
+	        BOARD_CONTENTS,
+	        BOARD_VIEW_COUNT,
+	        BOARD_WRITE_DATE
+        FROM sample_board_tb
+         <where>
+  			<if test="findField == 'all'"> 
+		  	  BOARD_WRITER LIKE #{findName} OR BOARD_TITLE like #{findName} 
+		  	</if> 
+		  
+		  	<if test="findField == 'BOARD_WRITER'">
+		  	  BOARD_WRITER LIKE #{findName}
+		  	</if>
+		  	
+		  	<if test="findField == 'BOARD_TITLE'"> 
+		  	  BOARD_TITLE LIKE #{findName}
+		  	</if>
+		  	
+		  	AND BOARD_DEL_YN ='N'
+		 
+		  </where>  
+		
+        ORDER BY BOARD_IDX DESC
+        LIMIT #{startrow},10
+    </select>
+    
+    <!-- 아이디 검증 -->
+    <select id="loginCheck" resultType="UserDTO">
+ 		SELECT * 
+ 		FROM SAMPLE_WRITER_TB  
+ 		WHERE BOARD_WRITER =#{login_id} AND DEL_YN ='N'
+	</select>
+	
+	<!-- 관리자아이디 검증 -->
+    <select id="adminloginCk" resultType="AdminDTO">
+ 		SELECT * 
+ 		FROM SAMPLE_ADMIN_TB  
+ 		WHERE ADMIN_ID =#{bOARD_WRITER} 
+	</select>
+
+	<!-- 중복 아이디 체크 -->
+	<select id="idcheck" resultType="UserDTO">
+  		SELECT * FROM SAMPLE_WRITER_TB WHERE BOARD_WRITER = #{id} 
+	</select>
+
+	<!-- 회원저장 -->
+	<insert id="userInsert">
+	  INSERT into SAMPLE_WRITER_TB 
+	  	( BOARD_WRITER,
+		  BOARD_WRITER_NAME,
+		  BOARD_WRITER_PW,
+		  BOARD_WRITER_PHONE,
+		  BOARD_WRITER_EMAIL,
+		  FILE_IDX,
+		  BOARD_WRITER_JOIN_DATE,
+		  SALT,
+		  DEL_YN) 
+	  VALUES
+	  	( #{BOARD_WRITER},
+		  #{BOARD_WRITER_NAME},
+		  #{BOARD_WRITER_PW},
+		  #{BOARD_WRITER_PHON},
+		  #{BOARD_WRITER_EMAIL},
+		  #{FILE_IDX},
+		  now(),
+		  #{SALT},
+		  'N') 	
+	 
+	</insert>
+	
+	<select id="getUserTotalCount" resultType="int">
+        SELECT COUNT(*) FROM sample_writer_tb WHERE DEL_YN ='N'
+    </select>
+	
+	<!-- 회원검색 및 페이징 리스트 -->
+    <select id="getUSerList"  resultType="UserDTO">
+        SELECT 
+        	BOARD_WRITER_IDX,
+	        BOARD_WRITER,
+	        BOARD_WRITER_NAME,
+	        BOARD_WRITER_PHONE,
+	        BOARD_WRITER_EMAIL
+	    FROM SAMPLE_WRITER_TB
+        where DEL_YN ='N'
+    <if test="findName != null and findName != ''">
+      AND (BOARD_WRITER LIKE CONCAT('%', #{findName}, '%')
+        OR BOARD_WRITER_NAME LIKE CONCAT('%', #{findName}, '%')
+        OR BOARD_WRITER_PHONE LIKE CONCAT('%', #{findName}, '%')
+        OR BOARD_WRITER_EMAIL LIKE CONCAT('%', #{findName}, '%'))
+    </if>
+		ORDER BY BOARD_WRITER_IDX DESC
+        LIMIT #{startrow},10
+    </select>
+
+	<select id="getMember"  resultType="UserDTO">
+        SELECT 
+	        BOARD_WRITER,
+	        BOARD_WRITER_NAME,
+	        BOARD_WRITER_PHONE,
+	        BOARD_WRITER_EMAIL
+	    FROM SAMPLE_WRITER_TB
+		where BOARD_WRITER = #{BOARD_WRITER} 
+	
+    </select>
+	
+	<update id="updatemember">
+		UPDATE SAMPLE_WRITER_TB
+        SET BOARD_WRITER_NAME = #{BOARD_WRITER_NAME},
+            BOARD_WRITER_PHONE = #{BOARD_WRITER_PHONE},
+            BOARD_WRITER_EMAIL = #{BOARD_WRITER_EMAIL}
+        WHERE BOARD_WRITER = #{BOARD_WRITER}
+	</update>
+
+	
+<select id="getTotalCount2"  resultType="int">
+        SELECT COUNT(*)
+	    FROM SAMPLE_WRITER_TB
+        where DEL_YN ='N'
+    <if test="findName != null and findName != ''">
+      AND (BOARD_WRITER LIKE CONCAT('%', #{findName}, '%')
+        OR BOARD_WRITER_NAME LIKE CONCAT('%', #{findName}, '%')
+        OR BOARD_WRITER_PHONE LIKE CONCAT('%', #{findName}, '%')
+        OR BOARD_WRITER_EMAIL LIKE CONCAT('%', #{findName}, '%'))
+    </if>
+		
+ </select>
+
+</mapper>
+    
