@@ -140,9 +140,8 @@ public class MemberController {
 		//회원 목록
 		List<UserDTO> ulist=this.userService.getUSerList(u);
 		
-		try {
-			//엑셀파일 생성
-			XSSFWorkbook workbook = new XSSFWorkbook();
+		try (//엑셀파일 생성
+			XSSFWorkbook workbook = new XSSFWorkbook()) {
 			XSSFSheet sheet = workbook.createSheet("Members");
 			
 			// 헤더 폰트 스타일 설정
