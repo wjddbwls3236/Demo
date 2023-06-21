@@ -8,31 +8,27 @@
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>Insert title here</title>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-</head>
-<body>
-<div id="progressBar">
-  <div id="progress"></div>
-</div>
-
 <script>
-function loadData() {
+document.addEventListener('DOMContentLoaded', function() {
+	  
 	  var progressBar = document.getElementById("progress");
 	  var width = 0;
-	  var interval = setInterval(frame, 10);
-
-	  function frame() {
-	    if (width >= 100) {
-	      clearInterval(interval);
-	    } else {
-	      width += 1;
-	      progressBar.style.width = width + "%";
-	    }
-	  }
-	}
+	  if(progressBar !=null){
+		  var interval = setInterval(frame, 10);
+		
+		  function frame() {
+		    if (width >= 100) {
+		      clearInterval(interval);
+		    } else {
+		      width += 1;
+		      progressBar.style.width = width + "%";
+		    }
+		  }
+	 } 
+});
 
 	// 데이터 로딩 시작
-	loadData();
+	
 </script>
 <style>
 #progressBar {
@@ -47,5 +43,11 @@ function loadData() {
   background-color: #4caf50;
 }
 </style>
+</head>
+<body>
+<div id="progressBar">
+  <div id="progress"></div>
+</div>
+
 </body>
 </html>
